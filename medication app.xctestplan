@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "10D36C51-9D33-42E9-B7FF-79BBD7F8DB8B",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "environmentVariableEntries" : [
+      {
+        "key" : "CG_NUMERICS_SHOW_BACKTRACE",
+        "value" : "YES"
+      }
+    ],
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:medication app.xcodeproj",
+      "identifier" : "A8E08D412B0401E700FD8C86",
+      "name" : "medication app"
+    }
+  },
+  "testTargets" : [
+
+  ],
+  "version" : 1
+}

@@ -270,8 +270,3 @@ struct SymptomGraphView: View {
         .frame(height: 250) // Adjusted the graph height for better spacing
     }
 }
-
-
-#Preview {
-    SymptomView()
-}

@@ -42,7 +42,7 @@ struct ContentView: View {
                         }
                     SymptomView()
                         .tabItem() {
-                            Image(systemName: "book.pages")
+                            Image(systemName: "book")
                                 .environment(\.symbolVariants, .none) // here
                         }
                     ProfileView()
@@ -60,8 +60,4 @@ struct ContentView: View {
             }
         }
     }
-}
-
-#Preview {
-    ContentView()
 }

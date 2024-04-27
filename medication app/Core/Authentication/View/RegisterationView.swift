@@ -154,7 +154,3 @@ extension RegistrationView: AuthenticationFormProtocol {
         && confirmPassword == password
     }
 }
-
-#Preview {
-    RegistrationView()
-}

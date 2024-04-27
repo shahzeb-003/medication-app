@@ -116,7 +116,3 @@ private func setWindowBackgroundColor(_ color: UIColor) {
         window.backgroundColor = color
     }
 }
-
-#Preview {
-    MedicationView()
-}

@@ -95,7 +95,3 @@ extension LoginView: AuthenticationFormProtocol {
         && password.count > 5
     }
 }
-
-#Preview {
-    LoginView()
-}

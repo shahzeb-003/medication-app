@@ -3,7 +3,7 @@
 Step Guide:
 
 1.	Download this file from Github: https://github.com/shahzeb-003/medication-app
-    or from OneDrive: https://1drv.ms/f/s!An51kNJJw_JziyBBmWGovU_8M6Rq?e=cGlEp5
+    or from OneDrive: https://1drv.ms/f/s!An51kNJJw_JzkAMjqpx3zgDlYvCd?e=JVcr3H
 
 2.	Once downloaded, you will get a zip file called ‘medication_app.zip’. Unzip the file.
 3.	Open XCode. 

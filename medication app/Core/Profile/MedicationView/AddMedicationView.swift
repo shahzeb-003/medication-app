@@ -350,9 +350,9 @@ struct PageTwoView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 9) {
-                    ForEach(medicationListVM.results, id: \.brand_name) { suggestion in
+                    ForEach(medicationListVM.results, id: \.medicationName) { suggestion in
                         HStack {
-                            Text(suggestion.brand_name)
+                            Text(suggestion.medicationName)
                                 .foregroundColor(Color.primary)
                                 .font(.system(size: 18))
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -362,10 +362,10 @@ struct PageTwoView: View {
                         .overlay(
                             Rectangle()
                                 .frame(height: 1)
-                                .foregroundColor(Color(UIColor.systemGray5)), alignment: .bottom // Slightly lighter color for separator
+                                .foregroundColor(Color(UIColor.systemGray5)), alignment: .bottom
                         )
                         .onTapGesture {
-                            medicationName = suggestion.brand_name
+                            medicationName = suggestion.medicationName
                             currentPage = 3
                         }
                         .padding(.horizontal, 24)
@@ -403,8 +403,6 @@ struct PageThreeView: View {
         "I take it everyday",
         "I take it once a week",
         "I take it multiple times a week",
-        "I take it once a month",
-        "I take it multiple times a month"
     ]
     
     var body: some View {

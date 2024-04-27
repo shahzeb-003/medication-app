@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Symptom: Identifiable {
+struct Symptom: Identifiable, Equatable {
     var id: String
     var title: String
     var description: String

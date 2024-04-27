@@ -7,45 +7,44 @@
 
 import Foundation
 
+
+class Webservice {
+    func getNames(searchTerm: String) async throws -> [String] {
+
+        var components = URLComponents()
+        components.scheme = "https"
+        components.host = "clinicaltables.nlm.nih.gov"
+        components.path = "/api/rxterms/v3/search"
+        components.queryItems = [
+            URLQueryItem(name: "terms", value: searchTerm)
+        ]
+
+
+        guard let url = components.url else {
+            throw NetworkError.badURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw NetworkError.badID
+        }
+
+        // Attempt to parse the JSON data manually due to its non-standard structure.
+        if let jsonResponse = try JSONSerialization.jsonObject(with: data, options: []) as? [Any],
+           
+            
+           let medicationNames = jsonResponse[1] as? [String] {
+            return medicationNames
+        } else {
+            throw NetworkError.parsingError
+        }
+    }
+}
+
 enum NetworkError: Error {
     case badURL
     case badID
+    case parsingError
 }
 
-class Webservice {
-    func getNames(searchTerm: String) async throws -> [MedicationNames] {
-        
-        guard let encodedSearchTerm = searchTerm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
-            throw NetworkError.badURL
-        }
-        
-        var components = URLComponents()
-        components.scheme = "https"
-        components.host = "api.fda.gov"
-        components.path = "/drug/ndc.json"
-        components.queryItems = [
-            URLQueryItem(name: "search", value: "brand_name:\"\(encodedSearchTerm)\""),
-            URLQueryItem(name: "limit", value: "10")
-        ]
-
-        
-        guard let url = components.url else {
-        
-            throw NetworkError.badURL
-        }
-        
-        
-        
-        let(data, response) = try await URLSession.shared.data(from: url)
-        
-        guard (response as? HTTPURLResponse)?.statusCode == 200 else {
-            
-            throw NetworkError.badID
-        }
-        
-        let medicationResponse = try? JSONDecoder().decode(MedicationResponse.self, from: data)
-        print("Number of results: \(medicationResponse?.results.count ?? 0)")
-        return medicationResponse?.results ?? []
-        
-    }
-}

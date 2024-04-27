@@ -9,6 +9,22 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    
+    @State private var showTimePicker = false
+    @State private var tempStartTime: Date = Date()
+    @State private var tempEndTime: Date = Date()
+    // DateFormatter to convert times
+    private let timeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter
+    }()
+    
+    @State private var tempFullName: String = ""
+    @State private var tempEmail: String = ""
+    @State private var currentPassword: String = "" // For re-authentication
+
+    
     var body: some View {
         if let user = viewModel.currentUser {
             ScrollView {
@@ -33,30 +49,51 @@ struct ProfileView: View {
                         RoundedRectangle(cornerRadius: 24, style: .continuous)
                             .stroke(Color.secondary, lineWidth: 1)
                     }
-                    
-                    
+
                     VStack(alignment: .leading) {
-                        Text(user.fullname)
-                                .font(.system(.subheadline, weight: .semibold))
-                                .padding(.top, 4)
-                                .foregroundColor(Color.primary)
-                    
-                        Text(user.email)
+                        // Existing user details display
+                        Text(viewModel.currentUser?.fullname ?? "")
+                            .font(.system(.subheadline, weight: .semibold))
+                            .padding(.top, 4)
+                            .foregroundColor(Color.primary)
+                        
+                        Text(viewModel.currentUser?.email ?? "")
                             .font(.footnote)
                             .foregroundColor(Color.secondary)
                         
-                        Text(user.startTime ?? "")
+                        // Display current start and end times
+                        Text("Start Time: \(viewModel.currentUser?.startTime ?? "")")
+                            .font(.footnote)
+                            .foregroundColor(Color.secondary)
+                        Text("End Time: \(viewModel.currentUser?.endTime ?? "")")
                             .font(.footnote)
                             .foregroundColor(Color.secondary)
                         
-                        Text(user.endTime ?? "")
-                            .font(.footnote)
-                            .foregroundColor(Color.secondary)
+                        Spacer()
                         
-                        
+                        // Unified Change Time Button
+                        Button("Change Times") {
+                            // Initialize tempStartTime and tempEndTime with current values
+                            if let startTimeStr = viewModel.currentUser?.startTime,
+                               let startTime = timeFormatter.date(from: startTimeStr),
+                               let endTimeStr = viewModel.currentUser?.endTime,
+                               let endTime = timeFormatter.date(from: endTimeStr) {
+                                self.tempStartTime = startTime
+                                self.tempEndTime = endTime
+                            }
+                            showTimePicker.toggle()
+                        }
                     }
-                    .padding(.horizontal, 24)
-                    .padding(.vertical, 10)
+                    .padding()
+                    .sheet(isPresented: $showTimePicker) {
+                        // TimePickerView for changing both start and end times
+                        TimeChangeView(isPresented: self.$showTimePicker, tempStartTime: self.$tempStartTime, tempEndTime: self.$tempEndTime, onSave: {
+                            Task {
+                                await viewModel.updateUserTimes(start: self.tempStartTime, end: self.tempEndTime)
+                            }
+                        })
+                    }
+
                     
                     Spacer()
                     
@@ -73,7 +110,11 @@ struct ProfileView: View {
                     .padding(.top, 32)
                     
                 }
-                
+            }
+            .onAppear {
+                // Initialize temporary state variables with current user details
+                tempFullName = viewModel.currentUser?.fullname ?? ""
+                tempEmail = viewModel.currentUser?.email ?? ""
             }
         }
     }
@@ -112,4 +153,33 @@ struct CustomRoundedRectangle: Shape {
     }
 }
 
+struct TimeChangeView: View {
+    @Binding var isPresented: Bool
+    @Binding var tempStartTime: Date
+    @Binding var tempEndTime: Date
+    var onSave: () -> Void
+
+    var body: some View {
+        NavigationView {
+            Form {
+                DatePicker("Start Time", selection: $tempStartTime, displayedComponents: .hourAndMinute)
+                DatePicker("End Time", selection: $tempEndTime, displayedComponents: .hourAndMinute)
+            }
+            .navigationTitle("Change Times")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        isPresented = false
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        onSave()
+                        isPresented = false
+                    }
+                }
+            }
+        }
+    }
+}
 

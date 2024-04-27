@@ -8,9 +8,9 @@
 import Foundation
 
 struct User: Identifiable, Codable {
-    let id: String
-    let fullname: String
-    let email: String
+    var id: String
+    var fullname: String
+    var email: String
     var startTime: String?
     var endTime: String?
     
@@ -22,5 +22,13 @@ struct User: Identifiable, Codable {
         }
         
         return ""
+    }
+    
+    init(id: String, fullname: String, email: String, startTime: String, endTime: String) {
+        self.id = id
+        self.fullname = fullname
+        self.email = email
+        self.startTime = email
+        self.endTime = email
     }
 }

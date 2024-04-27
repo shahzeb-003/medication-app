@@ -278,9 +278,7 @@ struct SymPageThreeView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            
             VStack(spacing: 5) {
-                
                 Text("When did you experience this?")
                     .font(.system(size: 20, weight: .bold))
                     .foregroundColor(Color.primary)
@@ -292,9 +290,10 @@ struct SymPageThreeView: View {
                     .foregroundColor(Color.secondary)
             }
             
-            DatePicker("Date", selection: $time, displayedComponents: .date)
-            DatePicker("Time", selection: $time, displayedComponents: .hourAndMinute)
-            
+            // Set the maximum date to today for the date picker
+            DatePicker("Date", selection: $time, in: ...Date(), displayedComponents: .date)
+            // Assuming you want to keep the time picker unrestricted since it's based on the same $time binding
+            DatePicker("Time", selection: $time, in: ...Date(), displayedComponents: .hourAndMinute)
         }
         .padding(.horizontal, 24)
         

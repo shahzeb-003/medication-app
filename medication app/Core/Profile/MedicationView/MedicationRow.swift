@@ -26,7 +26,7 @@ struct MedicationRow: View {
 
             
             VStack(alignment: .leading, spacing: 2) {
-                Text(medication.medicationName.uppercased())
+                Text(medication.medicationName.count > 30 ? "\(medication.medicationName.prefix(27).uppercased())..." : medication.medicationName.uppercased())
                     .fontWeight(.bold)
                     .foregroundColor(Color.primary)
                     .font(.headline)

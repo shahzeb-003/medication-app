@@ -15,21 +15,23 @@ class MedicationListViewModel: ObservableObject {
     func search(name: String) async {
         do {
             let results = try await Webservice().getNames(searchTerm: name)
-            // Remove duplicates
-            let uniqueResults = Set(results).sorted { $0.brand_name < $1.brand_name }
-            self.results = uniqueResults.map(MedicationNamesViewModel.init)
+            // Since results are already strings, we assume MedicationNamesViewModel can be initialized with a string.
+            // This step removes duplicates and creates view models for each unique medication name.
+            let uniqueResults = Array(Set(results)).sorted() // Sort the unique results alphabetically
+            self.results = uniqueResults.map { MedicationNamesViewModel(medicationName: $0) }
         } catch {
             print(error)
         }
     }
 
+
 }
 
 struct MedicationNamesViewModel {
+    let medicationName: String
     
-    let medicationNames: MedicationNames
-    
-    var brand_name: String {
-        medicationNames.brand_name
+    // Assuming an initializer that accepts a medication name
+    init(medicationName: String) {
+        self.medicationName = medicationName
     }
 }

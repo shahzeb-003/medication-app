@@ -148,8 +148,10 @@ class CalendarViewModel: ObservableObject {
             case "Monthly":
                 let dayOfMonth = calendar.component(.day, from: currentDate)
                 return dayOfMonth == 1
-            // case "x times per week":
-                // return shouldShowXTimesPerWeekMedication(medication, dayOfWeek: dayOfWeek)
+            case "x times per week":
+                return medication.timesPerWeek > 0
+            case "x times per month":
+                return medication.timesPerMonth > 0
             default:
                 return false
             }

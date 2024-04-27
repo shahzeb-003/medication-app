@@ -33,6 +33,19 @@
             default = "YES">
          </TestPlanReference>
       </TestPlans>
+      <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A86E58452B73FF960086FD4F"
+               BuildableName = "medication appTests.xctest"
+               BlueprintName = "medication appTests"
+               ReferencedContainer = "container:medication app.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+      </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"

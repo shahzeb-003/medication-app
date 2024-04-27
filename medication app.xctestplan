@@ -4,7 +4,11 @@
       "id" : "10D36C51-9D33-42E9-B7FF-79BBD7F8DB8B",
       "name" : "Test Scheme Action",
       "options" : {
-
+        "targetForVariableExpansion" : {
+          "containerPath" : "container:medication app.xcodeproj",
+          "identifier" : "A86E58452B73FF960086FD4F",
+          "name" : "medication appTests"
+        }
       }
     }
   ],
